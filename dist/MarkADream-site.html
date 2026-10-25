@@ -1447,6 +1447,8 @@ const okHtml=(t,m)=>`<div class="result"><span class="seg-ic" style="--c:var(--g
 const FORM_TO="adam.wilcox3@gmail.com", FORM_CC="wilcoxisaac@gmail.com";
 const FORM_URL="https://formsubmit.co/ajax/"+FORM_TO;
 const failMsg="We couldn't send this just now. Please check your connection and try again in a minute.";
+const setupMsg="Our form is finishing setup. Please try again in a few minutes.";
+let lastFail=failMsg;
 document.querySelectorAll("form").forEach(f=>f.insertAdjacentHTML("beforeend",'<input type="text" name="_honey" tabindex="-1" autocomplete="off" class="sr" aria-hidden="true">'));
 function collect(form){
   const data={};
@@ -1472,12 +1474,12 @@ async function send(form,subject,extra){
   try{
     const r=await fetch(FORM_URL,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(payload)});
     const j=await r.json().catch(()=>({}));
-    if(!r.ok||String(j.success)!=="true")throw new Error(j.message||("HTTP "+r.status));
+    if(!r.ok||String(j.success)!=="true"){lastFail=/activ/i.test(j.message||"")?setupMsg:failMsg;throw new Error(j.message||("HTTP "+r.status));}
     return true;
-  }catch(err){console.warn("Form delivery failed:",err&&err.message);return false;}
+  }catch(err){if(!(err&&/activ/i.test(err.message)))lastFail=failMsg;console.warn("Form delivery failed:",err&&err.message);return false;}
   finally{btn.disabled=false;btn.innerHTML=orig;}
 }
-function simple(f,e,r,t,m,subj){$(f).addEventListener("submit",async ev=>{ev.preventDefault();const form=ev.target;if(!validate(form,$(e)))return;if(await send(form,subj))done(form,$(r),okHtml(t,m));else{$(e).textContent=failMsg;$(e).hidden=false;}});}
+function simple(f,e,r,t,m,subj){$(f).addEventListener("submit",async ev=>{ev.preventDefault();const form=ev.target;if(!validate(form,$(e)))return;if(await send(form,subj))done(form,$(r),okHtml(t,m));else{$(e).textContent=lastFail;$(e).hidden=false;}});}
 simple("#sellerForm","#sellerErr","#sellerResult","Request received","We'll reach out within five business days to set up a confidential call, and we're happy to sign an NDA first.","Mark A Dream · Seller inquiry");
 simple("#investorForm","#investorErr","#investorResult","You're on the list","We'll be in touch to introduce ourselves and verify eligibility. Opportunities are shared only after that conversation.","Mark A Dream · Investor list request");
 simple("#partnerForm","#partnerErr","#partnerResult","Welcome to the program","Expect a short intro call and our one-page criteria sheet to share with clients.","Mark A Dream · Referral partner signup");
@@ -1492,13 +1494,13 @@ $("#founderForm").addEventListener("submit",async e=>{e.preventDefault();const f
   const score=Math.round((v("f-rev")+v("f-prof")+v("f-ask")+v("f-sector"))/12*100);
   const band=score>=75?["Strong fit","A partner will contact you to schedule a screening call.","var(--green)"]:score>=50?["Possible fit","We'll review the details and follow up with questions or next steps.","var(--orange)"]:["Early for us","We'll keep your details and share resources. Many companies we back first reached out a year early.","var(--red)"];
   const ok=await send(form,"Mark A Dream · Founder submission ("+band[0]+", "+score+"/100)",{"Fit score":score+"/100","Fit band":band[0]});
-  if(!ok){$("#founderErr").textContent=failMsg;$("#founderErr").hidden=false;return;}
+  if(!ok){$("#founderErr").textContent=lastFail;$("#founderErr").hidden=false;return;}
   const summary=`Name: ${$("#f-name").value}\nEmail: ${$("#f-email").value}\nCompany: ${$("#f-co").value} ${$("#f-url").value}\nRevenue: ${sel("f-rev")}\nProfitability: ${sel("f-prof")}\nRaise: ${sel("f-ask")}\nSector: ${sel("f-sector")}\nNotes: ${$("#f-why").value}`;
   $("#fBar").hidden=true;
   done(form,$("#founderResult"),`<div class="result"><span class="eyebrow">Submitted · Instant fit check</span><div class="gauge"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" stroke="var(--bg-2)"/><circle class="gv" cx="60" cy="60" r="50" pathLength="100" stroke="${band[2]}" stroke-dasharray="0 100"/></svg><div><b>${score}</b><span class="muted">/100</span><h3 style="color:${band[2]}">${band[0]}</h3></div></div><p>${band[1]}</p><p class="meta">Your submission was sent to the Mark A Dream team. A copy of your answers:</p><pre class="summary">${esc(summary)}</pre><a class="tlink" href="#insight-first-meeting">Prepare for the first meeting <span class="ar">→</span></a></div>`);
   requestAnimationFrame(()=>requestAnimationFrame(()=>{const g=$("#founderResult .gv");if(g)g.setAttribute("stroke-dasharray",score+" 100");}));
 });
-$("#newsForm").addEventListener("submit",async e=>{e.preventDefault();const v=$("#n-email").value.trim();if(!emailOk(v)){toast("Enter a valid email address to subscribe.");$("#n-email").focus();return;}if(await send(e.target,"Mark A Dream · Quarterly letter signup")){$("#n-email").value="";toast("Subscribed. Thank you.");}else toast(failMsg);});
+$("#newsForm").addEventListener("submit",async e=>{e.preventDefault();const v=$("#n-email").value.trim();if(!emailOk(v)){toast("Enter a valid email address to subscribe.");$("#n-email").focus();return;}if(await send(e.target,"Mark A Dream · Quarterly letter signup")){$("#n-email").value="";toast("Subscribed. Thank you.");}else toast(lastFail);});
 $("#copyEmail").addEventListener("click",()=>{const txt="hello@markadream.com";(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>toast("Email address copied")).catch(()=>{const r=document.createRange();r.selectNodeContents($("#emailText"));const s=getSelection();s.removeAllRanges();s.addRange(r);toast("Address selected. Use your device's copy.");});});
 })();
 </script>
