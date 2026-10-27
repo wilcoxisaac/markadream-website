@@ -590,6 +590,28 @@ footer .fwm{opacity:.04}
 @keyframes vtreveal{from{clip-path:circle(0% at var(--vx,50%) var(--vy,30%))}to{clip-path:circle(150% at var(--vx,50%) var(--vy,30%))}}
 .rv.in{animation-duration:1s}
 @keyframes rise{from{opacity:.001;transform:translateY(22px)}to{opacity:1;transform:none}}
+/* Leadership */
+.leader{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:clamp(28px,5vw,64px);align-items:start}
+@media (max-width:760px){.leader{grid-template-columns:1fr}.leader>.portrait{max-width:240px}}
+.portrait{position:relative;aspect-ratio:4/5;width:100%;max-width:320px;background:linear-gradient(160deg,color-mix(in srgb,var(--cyan) 22%,var(--surface)),var(--bg-2));border:1px solid var(--line);overflow:hidden;display:grid;place-items:center}
+.portrait img{width:100%;height:100%;object-fit:cover}
+.portrait .mono{font:600 clamp(3.5rem,3rem + 3vw,5.5rem)/1 var(--f-head);letter-spacing:-.04em;color:var(--teal)}
+.portrait .wmk{position:absolute;right:-18%;bottom:-14%;width:70%;opacity:.12}
+.portrait::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--teal);transform:scaleX(0);transform-origin:left;transition:transform 1.2s var(--ease)}
+.portrait.in::after{transform:scaleX(1)}
+.leader-body{display:grid;gap:18px;min-width:0}
+.leader-body .role{font:600 .82rem var(--f-head);letter-spacing:.16em;text-transform:uppercase;color:var(--accent-text)}
+.leader-body h2{margin:0}
+.commit{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--line-soft);margin-top:6px}
+@media (max-width:600px){.commit{grid-template-columns:1fr}}
+.commit div{padding:18px 18px 4px 0;display:grid;gap:4px;min-width:0}
+.commit b{font:600 1rem var(--f-head);color:var(--fg)}
+.commit span{color:var(--muted);font-size:.92rem;line-height:1.55}
+.mini-leader{display:grid;grid-template-columns:96px minmax(0,1fr) auto;gap:24px;align-items:center;padding:24px;border:1px solid var(--line-soft);background:var(--surface)}
+@media (max-width:640px){.mini-leader{grid-template-columns:72px minmax(0,1fr)}.mini-leader .btn{grid-column:1/-1}}
+.mini-leader .portrait{max-width:96px;aspect-ratio:1}
+.mini-leader .portrait .mono{font-size:2rem}
+.mini-leader .portrait .wmk{display:none}
 /* Foldables: keep content off the hinge when a page spans two screens */
 @media (horizontal-viewport-segments:2){
   .hero-in,.split,.alloc,.compare{grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:calc(env(viewport-segment-left 1 0,0px) - env(viewport-segment-right 0 0,0px) + 40px)}
@@ -775,6 +797,16 @@ footer .fwm{opacity:.04}
     </div>
   </section>
 
+  <section class="band tight">
+    <div class="wrap">
+      <div class="mini-leader rv">
+        <div class="portrait rv" role="img" aria-label="Adam Wilcox"><img class="wmk" src="assets/img/mark.webp" alt=""><span class="mono" aria-hidden="true">AW</span></div>
+        <div style="display:grid;gap:6px;min-width:0"><span class="eyebrow">Leadership</span><h3>Adam Wilcox, Managing Partner</h3><p class="muted" style="font-size:.97rem">Adam reads every submission and is the person you'll speak with first. One relationship, from introduction to close.</p></div>
+        <a class="btn ghost sm" href="#leadership">Meet Adam <span class="ar">→</span></a>
+      </div>
+    </div>
+  </section>
+
   <section class="band">
     <div class="wrap">
       <div class="cta rv">
@@ -813,9 +845,26 @@ footer .fwm{opacity:.04}
         </ul>
       </div>
       <aside class="aside">
-        <div class="card"><span class="eyebrow">Leadership</span><h3><span class="ph" title="Placeholder: add the managing partner's name, photo, and a three-sentence bio. Named, accountable leadership is the biggest trust signal on a private investment site.">Managing Partner</span></h3><p>Leadership names, credentials, and photos go here. Investors and sellers look for accountable people before they reach out.</p></div>
+        <a class="card" href="#leadership"><span class="eyebrow">Leadership</span><h3>Adam Wilcox</h3><p>Managing Partner. Adam reviews every submission personally.</p><span class="tlink">Meet Adam <span class="ar">→</span></span></a>
         <div class="card"><span class="eyebrow">Advisory bench</span><p>Legal, tax, and operating advisors who support diligence and portfolio companies.</p><a class="tlink" href="#contact">Work with us <span class="ar">→</span></a></div>
       </aside>
+    </div>
+  </section>
+  <section class="band tint" id="leadership">
+    <div class="wrap leader">
+      <div class="portrait rv" role="img" aria-label="Adam Wilcox"><img class="wmk" src="assets/img/mark.webp" alt=""><span class="mono" aria-hidden="true">AW</span></div>
+      <div class="leader-body">
+        <span class="role">Managing Partner</span>
+        <h2>Adam Wilcox</h2>
+        <p class="lede">Adam leads Mark A Dream and is the first person you'll speak with. He oversees every investment the firm makes and works directly with each founder, owner, and partner we back.</p>
+        <p class="muted">Because Mark A Dream invests its own capital, the person who answers your first call is the same person who makes the decision. There are no committees to wait on and no hand-offs between people who never meet you.</p>
+        <div class="commit">
+          <div><b>Direct access</b><span>You work with Adam from first call through close.</span></div>
+          <div><b>A clear answer</b><span>Yes, no, or not yet, within five business days.</span></div>
+          <div><b>Confidential</b><span>Glad to sign an NDA before you share details.</span></div>
+        </div>
+        <div class="btn-row"><a class="btn splashy" href="#contact">Start a conversation with Adam <span class="ar">→</span></a></div>
+      </div>
     </div>
   </section>
 </div>
@@ -1179,7 +1228,7 @@ footer .fwm{opacity:.04}
           <tr><td><span class="sev h">High</span></td><td>Every "Learn more", footer, and opportunities link 404s; "Contact" anchors to a missing section.</td><td>All 30+ routes resolve to real pages, with animated page transitions.</td></tr>
           <tr><td><span class="sev h">High</span></td><td>No way to contact the firm. Every CTA is a dead end.</td><td>Segment-specific intake forms that email the team, including a 3-step founder form with fit scoring.</td></tr>
           <tr><td><span class="sev h">High</span></td><td>No securities disclosures; "Investment Opportunities" could read as general solicitation.</td><td>Disclosures page, no-offer notices, accredited self-certification, relationship-first investor flow.</td></tr>
-          <tr><td><span class="sev h">High</span></td><td>No named leadership, track record, or location.</td><td>Leadership and portfolio slots flagged for owner input.</td></tr>
+          <tr><td><span class="sev h">High</span></td><td>No named leadership, track record, or location.</td><td>Adam Wilcox named as Managing Partner on About and Home; headshot and full bio pending.</td></tr>
           <tr><td><span class="sev m">Med</span></td><td>Eight asset classes reads as unfocused.</td><td>Three core lanes plus treasury and opportunistic, with an allocation chart.</td></tr>
           <tr><td><span class="sev m">Med</span></td><td>The logo's color story isn't used anywhere in the site design.</td><td>D-R-E-A-M letter colors now code each audience and value; the splash "M" is the hero, favicon, mobile action button, and watermark.</td></tr>
           <tr><td><span class="sev l">Low</span></td><td>"∞ Generational impact" stat is decorative, not evidence.</td><td>Replaced with concrete commitments.</td></tr>
@@ -1229,7 +1278,7 @@ footer .fwm{opacity:.04}
           <button class="btn sm splashy" type="submit">Subscribe</button>
         </form>
       </div>
-      <div><h4>Company</h4><ul><li><a href="#about">About us</a></li><li><a href="#about">Mission &amp; vision</a></li><li><a href="#home">Core values</a></li><li><a href="#portfolio">Portfolio</a></li><li><a href="#impact">Impact</a></li></ul></div>
+      <div><h4>Company</h4><ul><li><a href="#about">About us</a></li><li><a href="#leadership">Leadership</a></li><li><a href="#about">Mission &amp; vision</a></li><li><a href="#home">Core values</a></li><li><a href="#portfolio">Portfolio</a></li><li><a href="#impact">Impact</a></li></ul></div>
       <div><h4>Strategy</h4><ul id="footStrat"></ul></div>
       <div><h4>Work with us</h4><ul><li><a href="#founders">Founders</a></li><li><a href="#sellers">Owners</a></li><li><a href="#investors">Investors</a></li><li><a href="#partners">Referral partners</a></li></ul></div>
       <div><h4>Connect</h4><ul><li><a href="#insights">Insights</a></li><li><a href="#contact">Contact us</a></li><li><a href="#review">Site review (internal)</a></li></ul></div>
@@ -1271,7 +1320,7 @@ footer .fwm{opacity:.04}
     <div class="wrap" style="padding:0">
       <div class="sheet-top"><img src="assets/img/logo.webp" alt="Mark A Dream"><button class="icon-btn" type="button" data-close aria-label="Close menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
       <nav class="mnav" aria-label="Menu">
-        <a href="#home" style="--i:0">Home <span>→</span></a><a href="#about" style="--i:1">About <span>→</span></a><a href="#strategy" style="--i:2">Strategy <span>→</span></a><a href="#founders" style="--i:3">For founders <span>→</span></a><a href="#sellers" style="--i:4">For owners <span>→</span></a><a href="#investors" style="--i:5">For investors <span>→</span></a><a href="#partners" style="--i:6">For advisors <span>→</span></a><a href="#portfolio" style="--i:7">Portfolio <span>→</span></a><a href="#impact" style="--i:8">Impact <span>→</span></a><a href="#insights" style="--i:9">Insights <span>→</span></a><a href="#contact" style="--i:10">Contact <span>→</span></a>
+        <a href="#home" style="--i:0">Home <span>→</span></a><a href="#about" style="--i:1">About <span>→</span></a><a href="#leadership" style="--i:1">Leadership <span>→</span></a><a href="#strategy" style="--i:2">Strategy <span>→</span></a><a href="#founders" style="--i:3">For founders <span>→</span></a><a href="#sellers" style="--i:4">For owners <span>→</span></a><a href="#investors" style="--i:5">For investors <span>→</span></a><a href="#partners" style="--i:6">For advisors <span>→</span></a><a href="#portfolio" style="--i:7">Portfolio <span>→</span></a><a href="#impact" style="--i:8">Impact <span>→</span></a><a href="#insights" style="--i:9">Insights <span>→</span></a><a href="#contact" style="--i:10">Contact <span>→</span></a>
       </nav>
     </div>
   </div>
@@ -1386,13 +1435,15 @@ function show(){
   let h=(location.hash||"#home").slice(1)||"home", key=h, title=null;
   if(h.startsWith("strategy-")){const s=STRATS.find(x=>"strategy-"+x.id===h);if(s){renderStrat(s);key="strategy-detail";title=s.name+" — Mark A Dream";}else key="notfound";}
   else if(h.startsWith("insight-")){const p=POSTS.find(x=>"insight-"+x.id===h);if(p){renderPost(p);key="insight-detail";title=p.title+" — Mark A Dream";}else key="notfound";}
+  let anchor=null; if(h==="leadership"){key="about";anchor="leadership";}
   if(!pages.some(p=>p.dataset.page===key))key="notfound";
   pages.forEach(p=>{const on=p.dataset.page===key;p.classList.toggle("active",on);if(on&&!title)title=p.dataset.title;});
   document.title=title;
-  const top=key.startsWith("strategy")?"strategy":key.startsWith("insight")?"insights":key;
+  const top=h==="leadership"?"about":key.startsWith("strategy")?"strategy":key.startsWith("insight")?"insights":key;
   navLinks.forEach(a=>a.getAttribute("href")==="#"+top?a.setAttribute("aria-current","page"):a.removeAttribute("aria-current"));
   closeSheets(true);
   window.scrollTo({top:0,behavior:"instant"});
+  if(anchor){const el=document.getElementById(anchor);if(el)requestAnimationFrame(()=>window.scrollTo({top:el.getBoundingClientRect().top+scrollY-(innerWidth<761?64:72),behavior:"instant"}));}
   observe($(".page.active"));
 }
 function route(){
