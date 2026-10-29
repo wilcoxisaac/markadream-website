@@ -8,7 +8,7 @@ Outputs
 
 Usage:  python3 build.py
 """
-import base64, pathlib
+import base64, hashlib, pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parent
 IMG = ROOT / "assets" / "img"
@@ -37,7 +37,9 @@ def main() -> None:
     # 1) Hosted site: images load from assets/img/
     site = src
     for key, name in KEYS.items():
-        site = site.replace(key, f"assets/img/{name}.webp")
+        # version each image by content so browsers fetch a new file whenever it changes
+        ver = hashlib.md5((IMG / f"{name}.webp").read_bytes()).hexdigest()[:8]
+        site = site.replace(key, f"assets/img/{name}.webp?v={ver}")
     (ROOT / "index.html").write_text(wrap(site), encoding="utf-8")
 
     # 2) Single self-contained file: images embedded once, attached at load
