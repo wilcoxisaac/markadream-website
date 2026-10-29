@@ -9,6 +9,7 @@ markadream-website/
 ├── index.html                 ← the live site (generated; GitHub Pages serves this)
 ├── 404.html                   ← sends unknown paths back to the site (generated)
 ├── .nojekyll                  ← tells GitHub Pages to serve files as-is
+├── CNAME                      ← custom domain (markadream.com) — keep this file
 ├── src/
 │   └── template.html          ← EDIT THIS: all pages, styles, scripts, and copy
 ├── assets/
@@ -29,11 +30,12 @@ Image placeholders in the template (`%%LOGO%%`, `%%MARK%%`, `%%MARKSM%%`) are fi
 
 ## Publishing
 
-### GitHub Pages (current)
-Settings → Pages → *Deploy from a branch* → Branch `main`, folder `/ (root)`.
-The site is then live at `https://<github-username>.github.io/markadream-website/`.
+### Live site
+**https://markadream.com** (GitHub Pages, branch `main`, folder `/ (root)`). The `CNAME` file in the repo root holds the custom domain; keep it.
 
-### Custom domain (markadream.com)
+DNS (GoDaddy): four `A` records for `@` → `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`; `www` → `markadream.com` (or `wilcoxisaac.github.io`).
+
+### Re-creating the custom domain setup
 1. Settings → Pages → *Custom domain* → enter `markadream.com` and save (this adds a `CNAME` file).
 2. At the domain registrar, point DNS to GitHub Pages:
    - `A` records for `@`: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
