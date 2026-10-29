@@ -56,11 +56,20 @@ def main() -> None:
     (ROOT / "dist").mkdir(exist_ok=True)
     (ROOT / "dist" / "MarkADream-site.html").write_text(wrap(one), encoding="utf-8")
 
-    # 3) 404 page: route stray paths back to the home page
-    (ROOT / "404.html").write_text(
-        '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Mark A Dream</title>'
-        '<meta http-equiv="refresh" content="0; url=./#notfound"><script>location.replace("./#notfound")</script>'
-        '</head><body><p><a href="./">Go to Mark A Dream</a></p></body></html>\n', encoding="utf-8")
+    # 3) 404 page: send old markadream.com paths (from the previous site) to their new sections
+    (ROOT / "404.html").write_text("""<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Mark A Dream</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+(function(){
+  var map={"company/about":"about","company/mission":"about","company/values":"about","portfolio":"portfolio","impact":"impact",
+    "insights":"insights","contact":"contact","opportunities":"founders","strategy":"strategy"};
+  var p=location.pathname.replace(/^\/(markadream-website\/)?/,"").replace(/\/+$/,"").toLowerCase();
+  var base=location.pathname.indexOf("/markadream-website/")===0?"/markadream-website/":"/";
+  var h=map[p]||(p.indexOf("strategy/")===0?"strategy-"+p.slice(9):"notfound");
+  location.replace(base+"#"+h);
+})();
+</script></head><body><p><a href="/">Go to Mark A Dream</a></p></body></html>
+""", encoding="utf-8")
     print("Built index.html, 404.html, dist/MarkADream-site.html")
 
 

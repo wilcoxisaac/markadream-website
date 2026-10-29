@@ -2,6 +2,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="Mark A Dream is a private investment group providing patient capital to founders, business owners, and real estate partners, and building wealth that lasts for generations.">
 <meta name="theme-color" content="#03293A">
+<meta http-equiv="Cache-Control" content="no-cache">
 <link rel="icon" href="%%MARKSM%%">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1205,7 +1206,7 @@ footer .fwm{opacity:.04}
     <h3>How we use it</h3><p>To respond to inquiries, evaluate opportunities, verify investor eligibility, and send updates you request. We do not sell personal information.</p>
     <h3>Confidential business information</h3><p>Business and financial details shared with us are treated as confidential and shared only with advisors bound by confidentiality obligations. We will sign a mutual NDA on request.</p>
     <h3>Your choices</h3><p>You may ask us to access, correct, or delete your information, or unsubscribe at any time, through the <a class="tlink" href="#contact">Contact page</a>.</p>
-    <h3>Service providers</h3><p>Form submissions are delivered to our team by email through FormSubmit, a form-processing service, which handles them only to provide that delivery.</p>
+    <h3>Service providers</h3><p>Form submissions are delivered to our team by email through Formspree, a form-processing service, which handles them only to provide that delivery.</p>
     <h3>Security and retention</h3><p>We use reasonable administrative and technical safeguards and keep information only as long as needed for these purposes or as required by law.</p>
   </div></section>
 </div>
@@ -1418,6 +1419,8 @@ const POSTS=[
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+// Clear any service worker or cached copy left behind by the previous site on this domain
+try{if("serviceWorker" in navigator)navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.unregister())).catch(()=>{});if(window.caches)caches.keys().then(ks=>ks.forEach(k=>caches.delete(k))).catch(()=>{});}catch(e){}
 
 // ---- Static renders
 $("#stratGrid").innerHTML=STRATS.map((s,i)=>`<a class="card rv" style="--c:${C[s.c]};--i:${i%4}" href="#strategy-${s.id}"><span class="tag" style="--c:${C[s.c]}">${s.lane}</span><h3>${s.name}</h3><p>${s.sum}</p><span class="tlink">Read thesis <span class="ar">→</span></span></a>`).join("");
@@ -1510,9 +1513,14 @@ function validate(scope,errEl){
 function done(form,res,html){form.hidden=true;res.innerHTML=html;res.hidden=false;res.scrollIntoView({behavior:reduce?"auto":"smooth",block:"center"});}
 const okHtml=(t,m)=>`<div class="result"><span class="seg-ic" style="--c:var(--green)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></span><h3>${t}</h3><p class="muted">${m}</p></div>`;
 
-// ---- Form delivery: FormSubmit emails each submission to the team and copies a second inbox
+// ---- Form delivery
+// Formspree (preferred): set FORMSPREE_ID to the form's ID (the part after /f/ in its endpoint).
+// Recipients are managed in the Formspree dashboard (Adam + Isaac as linked emails).
+// While FORMSPREE_ID is empty, forms fall back to FormSubmit.
+const FORMSPREE_ID="";
 const FORM_TO="adam.wilcox3@gmail.com", FORM_CC="wilcoxisaac@gmail.com";
-const FORM_URL="https://formsubmit.co/ajax/"+FORM_TO;
+const USE_FORMSPREE=!!FORMSPREE_ID;
+const FORM_URL=USE_FORMSPREE?"https://formspree.io/f/"+FORMSPREE_ID:"https://formsubmit.co/ajax/"+FORM_TO;
 const failMsg="We couldn't send this just now. Please check your connection and try again in a minute.";
 const setupMsg="Our form is finishing setup. Please try again in a few minutes.";
 let lastFail=failMsg;
@@ -1535,13 +1543,15 @@ async function send(form,subject,extra){
   const btn=form.querySelector('button[type="submit"]'),orig=btn.innerHTML;
   btn.disabled=true;btn.innerHTML="Sending…";
   const em=form.querySelector('input[type="email"]');
-  const payload=Object.assign({_subject:subject,_cc:FORM_CC,_template:"table",_captcha:"false"},collect(form),extra||{},{"Submitted from":location.href.split("#")[0],"Submitted at":new Date().toLocaleString()});
+  const base=USE_FORMSPREE?{_subject:subject}:{_subject:subject,_cc:FORM_CC,_template:"table",_captcha:"false"};
+  const payload=Object.assign(base,collect(form),extra||{},{"Submitted from":location.href.split("#")[0],"Submitted at":new Date().toLocaleString()});
   if(em&&em.value)payload.email=em.value.trim();
-  const hp=form.querySelector('[name="_honey"]');payload._honey=hp?hp.value:"";
+  const hp=form.querySelector('[name="_honey"]');if(USE_FORMSPREE){payload._gotcha=hp?hp.value:"";if(payload.email)payload._replyto=payload.email;}else payload._honey=hp?hp.value:"";
   try{
     const r=await fetch(FORM_URL,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(payload)});
     const j=await r.json().catch(()=>({}));
-    if(!r.ok||String(j.success)!=="true"){lastFail=/activ/i.test(j.message||"")?setupMsg:failMsg;throw new Error(j.message||("HTTP "+r.status));}
+    const ok=USE_FORMSPREE?(r.ok&&j.ok!==false):(r.ok&&String(j.success)==="true");
+    if(!ok){lastFail=/activ/i.test(j.message||"")?setupMsg:failMsg;throw new Error(j.message||("HTTP "+r.status));}
     return true;
   }catch(err){if(!(err&&/activ/i.test(err.message)))lastFail=failMsg;console.warn("Form delivery failed:",err&&err.message);return false;}
   finally{btn.disabled=false;btn.innerHTML=orig;}
