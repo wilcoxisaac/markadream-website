@@ -13,7 +13,7 @@ import base64, pathlib
 ROOT = pathlib.Path(__file__).resolve().parent
 IMG = ROOT / "assets" / "img"
 BLANK = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-KEYS = {"%%LOGO%%": "logo", "%%MARKSM%%": "mark-sm", "%%MARK%%": "mark"}
+KEYS = {"%%LOGO%%": "logo", "%%MARKSM%%": "mark-sm", "%%ADAM%%": "adam", "%%MARK%%": "mark"}
 
 
 def wrap(body: str) -> str:
