@@ -57,7 +57,7 @@ def main() -> None:
     (ROOT / "dist" / "MarkADream-site.html").write_text(wrap(one), encoding="utf-8")
 
     # 3) 404 page: send old markadream.com paths (from the previous site) to their new sections
-    (ROOT / "404.html").write_text("""<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Mark A Dream</title>
+    (ROOT / "404.html").write_text(r"""<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Mark A Dream</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>
 (function(){
