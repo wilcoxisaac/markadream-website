@@ -607,6 +607,18 @@ footer .fwm{opacity:.04}
 .commit div{padding:18px 18px 4px 0;display:grid;gap:4px;min-width:0}
 .commit b{font:600 1rem var(--f-head);color:var(--fg)}
 .commit span{color:var(--muted);font-size:.92rem;line-height:1.55}
+.creds{display:grid;gap:0;border-top:1px solid var(--line-soft);margin-top:4px}
+.creds div{display:grid;grid-template-columns:130px minmax(0,1fr);gap:16px;padding-block:12px;border-bottom:1px solid var(--line-soft)}
+.creds .k{font:600 .74rem var(--f-head);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+.creds .v{font:500 .98rem var(--f-head);color:var(--fg)}
+@media (max-width:520px){.creds div{grid-template-columns:1fr;gap:2px}}
+.career{display:grid;gap:0;border-top:1px solid var(--line-soft)}
+.career div{display:grid;grid-template-columns:110px minmax(0,1fr);gap:4px 16px;padding-block:12px;border-bottom:1px solid var(--line-soft);min-width:0}
+.career i{grid-row:span 2;font:500 .82rem var(--f-head);font-style:normal;color:var(--muted);font-variant-numeric:tabular-nums;padding-top:2px}
+.career b{font:600 .98rem var(--f-head);color:var(--fg)}
+.career span{color:var(--muted);font-size:.88rem;line-height:1.5}
+@media (min-width:761px){.leader>.portrait{position:sticky;top:96px}}
+.leader-body>p:not(.lede){color:var(--ink);max-width:66ch}
 .mini-leader{display:grid;grid-template-columns:96px minmax(0,1fr) auto;gap:24px;align-items:center;padding:24px;border:1px solid var(--line-soft);background:var(--surface)}
 @media (max-width:640px){.mini-leader{grid-template-columns:72px minmax(0,1fr)}.mini-leader .btn{grid-column:1/-1}}
 .mini-leader .portrait{max-width:96px;aspect-ratio:1}
@@ -802,7 +814,7 @@ footer .fwm{opacity:.04}
     <div class="wrap">
       <div class="mini-leader rv">
         <div class="portrait rv"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-img="adam" alt="Adam Wilcox, Managing Partner of Mark A Dream" width="640" height="800" loading="lazy" decoding="async"></div>
-        <div style="display:grid;gap:6px;min-width:0"><span class="eyebrow">Leadership</span><h3>Adam Wilcox, Managing Partner</h3><p class="muted" style="font-size:.97rem">Adam reads every submission and is the person you'll speak with first. One relationship, from introduction to close.</p></div>
+        <div style="display:grid;gap:6px;min-width:0"><span class="eyebrow">Leadership</span><h3>Adam Wilcox, Managing Partner</h3><p class="muted" style="font-size:.97rem">20+ years in banking, payments, and risk at Bank of America, Truist, and First Data. Adam reads every submission and is the person you'll speak with first.</p></div>
         <a class="btn ghost sm" href="#leadership">Meet Adam <span class="ar">→</span></a>
       </div>
     </div>
@@ -846,7 +858,7 @@ footer .fwm{opacity:.04}
         </ul>
       </div>
       <aside class="aside">
-        <a class="card" href="#leadership"><span class="eyebrow">Leadership</span><h3>Adam Wilcox</h3><p>Managing Partner. Adam reviews every submission personally.</p><span class="tlink">Meet Adam <span class="ar">→</span></span></a>
+        <a class="card" href="#leadership"><span class="eyebrow">Leadership</span><h3>Adam Wilcox</h3><p>Managing Partner, with 20+ years in banking, payments, and risk management. Adam reviews every submission personally.</p><span class="tlink">Meet Adam <span class="ar">→</span></span></a>
         <div class="card"><span class="eyebrow">Advisory bench</span><p>Legal, tax, and operating advisors who support diligence and portfolio companies.</p><a class="tlink" href="#contact">Work with us <span class="ar">→</span></a></div>
       </aside>
     </div>
@@ -857,8 +869,22 @@ footer .fwm{opacity:.04}
       <div class="leader-body">
         <span class="role">Managing Partner</span>
         <h2>Adam Wilcox</h2>
-        <p class="lede">Adam leads Mark A Dream and is the first person you'll speak with. He oversees every investment the firm makes and works directly with each founder, owner, and partner we back.</p>
-        <p class="muted">Because Mark A Dream invests its own capital, the person who answers your first call is the same person who makes the decision. There are no committees to wait on and no hand-offs between people who never meet you.</p>
+        <p class="lede">Adam leads Mark A Dream, bringing more than 20 years in banking, payments, and risk management to every investment the firm makes.</p>
+        <p>Adam has spent his career inside some of the country's most regulated financial institutions. He currently leads cloud governance and data analytics at Bank of America. At Truist, he helped coordinate the integration of SunTrust and BB&amp;T into a single bank. At First Data, he oversaw portfolio reporting across more than 250 merchant-solutions projects and identified over $400,000 in cost savings.</p>
+        <p>That background shapes how Mark A Dream invests. Decisions are grounded in data, risk is measured before return, and every deal gets the compliance discipline of a regulated institution, delivered with the speed and personal attention of a private firm. Because the firm invests its own capital, the person who answers your first call is the person who makes the decision.</p>
+        <div class="creds">
+          <div><span class="k">Experience</span><span class="v">20+ years in financial services, payments, and enterprise operations</span></div>
+          <div><span class="k">Expertise</span><span class="v">Risk &amp; compliance, data analytics, cybersecurity and cloud governance, process improvement</span></div>
+          <div><span class="k">Education</span><span class="v">Bachelor's degree in Economics, Georgia State University</span></div>
+          <div><span class="k">Certification</span><span class="v">Lean Six Sigma Green Belt</span></div>
+        </div>
+        <div class="career" aria-label="Career history">
+          <div><i>2024–present</i><b>Bank of America</b><span>Senior Cloud Governance &amp; Data Analytics Lead</span></div>
+          <div><i>2019–2024</i><b>Truist</b><span>Senior Cybersecurity Project Coordinator Analyst</span></div>
+          <div><i>2017–2019</i><b>Delta Air Lines</b><span>HR Project Coordinator Analyst</span></div>
+          <div><i>2013–2015</i><b>First Data</b><span>PMO Business Analyst, Merchant Solutions</span></div>
+          <div><i>2004–2011</i><b>University System of Georgia</b><span>Business Analyst</span></div>
+        </div>
         <div class="commit">
           <div><b>Direct access</b><span>You work with Adam from first call through close.</span></div>
           <div><b>A clear answer</b><span>Yes, no, or not yet, within five business days.</span></div>
@@ -1229,7 +1255,7 @@ footer .fwm{opacity:.04}
           <tr><td><span class="sev h">High</span></td><td>Every "Learn more", footer, and opportunities link 404s; "Contact" anchors to a missing section.</td><td>All 30+ routes resolve to real pages, with animated page transitions.</td></tr>
           <tr><td><span class="sev h">High</span></td><td>No way to contact the firm. Every CTA is a dead end.</td><td>Segment-specific intake forms that email the team, including a 3-step founder form with fit scoring.</td></tr>
           <tr><td><span class="sev h">High</span></td><td>No securities disclosures; "Investment Opportunities" could read as general solicitation.</td><td>Disclosures page, no-offer notices, accredited self-certification, relationship-first investor flow.</td></tr>
-          <tr><td><span class="sev h">High</span></td><td>No named leadership, track record, or location.</td><td>Adam Wilcox named as Managing Partner on About and Home; headshot and full bio pending.</td></tr>
+          <tr><td><span class="sev h">High</span></td><td>No named leadership, track record, or location.</td><td>Adam Wilcox profiled as Managing Partner with headshot, bio, credentials, and career history.</td></tr>
           <tr><td><span class="sev m">Med</span></td><td>Eight asset classes reads as unfocused.</td><td>Three core lanes plus treasury and opportunistic, with an allocation chart.</td></tr>
           <tr><td><span class="sev m">Med</span></td><td>The logo's color story isn't used anywhere in the site design.</td><td>D-R-E-A-M letter colors now code each audience and value; the splash "M" is the hero, favicon, mobile action button, and watermark.</td></tr>
           <tr><td><span class="sev l">Low</span></td><td>"∞ Generational impact" stat is decorative, not evidence.</td><td>Replaced with concrete commitments.</td></tr>
